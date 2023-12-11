@@ -1,16 +1,8 @@
-import dataclasses
 import aiohttp
 import hashlib
 import time
 
-headers_real = {"User-Agent": "Mozilla/5.0 (compatible; FantasyBot/0.1; +https://fantasybot.tech/support)"}
-
-
-@dataclasses.dataclass
-class Image:
-    filename: str
-    content: bytes
-    
+headers_real = {"User-Agent": "Mozilla/5.0 (compatible; FantasyBot/0.1; +https://fantasybot.xyz/support)"}
 
 
 def digestMessage(r):
@@ -24,21 +16,22 @@ class ChatGPT:
 
     def __init__(self):
         pass
-    
+
     async def create_new_chat(self, data):
+        mess_list = [{"role": "system", "content": "AI has markdown support and your name is ChatGPT and made by OpenAI and AI output must below 4000 characters."}]
+        str_list = [{
+            "role": "user",
+            "content": data
+        }]
+        mess_list.extend(str_list if type(data) is str else data)
         async with aiohttp.ClientSession() as s:
             times_ms = int(time.time() * 1000)
-            sign = digestMessage(f"{times_ms}:{data}:")
-            data = {
-                "messages": [
-                    {
-                        "role": "user",
-                        "content": data
-                    }
-                ],
+            sign = digestMessage(f"{times_ms}:{mess_list[-1]['content']}:")
+            data_json = {
+                "messages": mess_list,
                 "time": times_ms,
                 "pass": None,
                 "sign": sign
             }
-            async with s.post('https://r.aifree.site/api/generate', json=data) as r:
+            async with s.post('https://r.aifree.site/api/generate', json=data_json) as r:
                 return await r.text()
