@@ -21,9 +21,31 @@ async def on_message(message: discord.Message):
     
     if bot.user in message.mentions:
             if message.clean_content:
+                list_m = []
                 async with message.channel.typing():
-                    out_gpt = await gpt.create_new_chat(message.content)
-                    await message.reply(out_gpt)
+                    mess_dict = {
+                            "role": "user",
+                            "content": message.content,
+                            "name": message.author.id
+                        }
+                    list_m.append(mess_dict)
+                    async for mess in message.channel.history(limit=50, before=message):
+                        if mess.author.bot and mess.author != bot.user:
+                            continue
+                        if not mess.content:
+                            continue
+                        mess_dict = {
+                            "role": "assistant",
+                            "content": mess.content
+                        }
+                        if not mess.author.bot:
+                            mess_dict["role"] = "user"
+                            mess_dict["name"] = mess.author.id
+                        list_m.append(mess_dict)
+                    list_m.reverse()
+                    print(list_m)
+                    out_gpt = await gpt.create_new_chat(list_m)
+                await message.reply(out_gpt)
         
         
         
