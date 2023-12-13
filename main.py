@@ -2,7 +2,6 @@ import discord
 import dotenv
 import os
 import asyncio
-from discord import app_commands
 from chatgpt import ChatGPT
 from discord.ext import tasks
 
