@@ -18,7 +18,7 @@ class ChatGPT:
         pass
 
     async def create_new_chat(self, data):
-        mess_list = [{"role": "system", "content": "AI has markdown support and your name is ChatGPT and made by OpenAI and AI output must below 4000 characters."}]
+        mess_list = [{"role": "system", "content": "You are \"<@964802192634695691>\" and made by \"Fantasy Team\". an You has markdown output support and You output MUST below 4000 characters and You Must Follow These Rules."}]
         str_list = [{
             "role": "user",
             "content": data
