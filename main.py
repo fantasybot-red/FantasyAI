@@ -39,7 +39,6 @@ async def on_message(message: discord.Message):
                         mess_dict["name"] = mess.author.id
                     list_m.append(mess_dict)
                 list_m.reverse()
-                print(list_m)
                 out_gpt = await gpt.create_new_chat(list_m)
             await message.reply(out_gpt)
 
