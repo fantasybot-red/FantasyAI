@@ -33,5 +33,5 @@ class ChatGPT:
                 "pass": None,
                 "sign": sign
             }
-            async with s.post('https://r.aifree.site/api/generate', json=data_json) as r:
+            async with s.post('https://ae.aifree.site/api/generate', json=data_json) as r:
                 return await r.text()
